@@ -1,0 +1,118 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  email    String   @unique
+  password String
+  role     String   @default("PUBLIC")
+  name     String?
+  phone    String?
+  district String?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  coordinatorDistrict String?
+  teams               Team[]
+  players             Player[]
+}
+
+model Team {
+  id              String      @id @default(auto()) @map("_id") @db.ObjectId
+  name            String
+  district        String
+  schoolCollege   String
+  coachName       String?
+  coachPhone      String?
+  managerName     String?
+  managerPhone    String?
+  registrationFee Int         @default(11000)
+  status          String      @default("PENDING")
+  registrationId  String      @unique
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  createdBy User     @relation(fields: [createdById], references: [id])
+  createdById String @db.ObjectId
+  
+  players  Player[]
+  payments Payment[]
+  matches  Match[]
+}
+
+model Player {
+  id            String  @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  fatherName    String?
+  dateOfBirth   DateTime
+  phone         String
+  alternatePhone String?
+  aadhaarNo     String
+  schoolCollege String
+  district      String
+  role          String
+  position      String?
+  experience    String?
+  
+  aadhaarDoc    String?
+  schoolIdDoc   String?
+  dobProofDoc   String?
+  photoDoc      String?
+  
+  isIndividual  Boolean @default(false)
+  teamAssigned  Boolean @default(false)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  team   Team?   @relation(fields: [teamId], references: [id])
+  teamId String? @db.ObjectId
+  
+  createdBy User   @relation(fields: [createdById], references: [id])
+  createdById String @db.ObjectId
+}
+
+model Payment {
+  id            String        @id @default(auto()) @map("_id") @db.ObjectId
+  amount        Int
+  status        String        @default("PENDING")
+  razorpayId    String?
+  transactionId String?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  team   Team   @relation(fields: [teamId], references: [id])
+  teamId String @db.ObjectId
+}
+
+model Match {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  team1    Team   @relation(fields: [team1Id], references: [id])
+  team1Id  String @db.ObjectId
+  team2Id  String?
+  venue    String
+  date     DateTime
+  result   String?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Announcement {
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  title   String
+  content String
+  active  Boolean @default(true)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
