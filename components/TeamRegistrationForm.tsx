@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Plus, Trash2 } from 'lucide-react'
+import DocumentUpload from '@/components/DocumentUpload'
 
 interface Player {
   name: string
@@ -19,6 +20,7 @@ interface TeamFormData {
   coachPhone: string
   managerName: string
   managerPhone: string
+  email: string
   players: Player[]
 }
 
@@ -156,6 +158,19 @@ export default function TeamRegistrationForm() {
           </div>
 
           <div>
+            <label className="form-label">Email ID *</label>
+            <input
+              type="email"
+              {...register('email', { required: 'Email is required' })}
+              className="form-input"
+              placeholder="Enter team email"
+            />
+            {errors.email && (
+              <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+            )}
+          </div>
+
+          <div>
             <label className="form-label">Manager Phone</label>
             <input
               {...register('managerPhone')}
@@ -246,6 +261,66 @@ export default function TeamRegistrationForm() {
               </div>
             </div>
           ))}
+        </div>
+      </div>
+
+      {/* Document Upload */}
+      <div className="card">
+        <h2 className="text-xl font-semibold mb-6 text-primary-600">Document Upload (For Each Player)</h2>
+        <p className="text-gray-600 mb-4">
+          Each player must upload the following documents during registration:
+        </p>
+        <div className="grid md:grid-cols-2 gap-6">
+          <div className="p-4 bg-gray-50 rounded-lg">
+            <h3 className="font-semibold mb-2">Required Documents:</h3>
+            <ul className="text-sm text-gray-600 space-y-1">
+              <li>• Aadhaar Card</li>
+              <li>• School/College ID</li>
+              <li>• Date of Birth Proof</li>
+              <li>• Passport Size Photograph</li>
+            </ul>
+          </div>
+          <div className="p-4 bg-primary-50 rounded-lg">
+            <h3 className="font-semibold mb-2">Upload Instructions:</h3>
+            <ul className="text-sm text-gray-600 space-y-1">
+              <li>• Max file size: 5MB</li>
+              <li>• Formats: JPG, PNG, PDF</li>
+              <li>• Clear, readable images</li>
+              <li>• All documents mandatory</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      {/* Declaration */}
+      <div className="card">
+        <h2 className="text-xl font-semibold mb-6 text-primary-600">Declaration</h2>
+        <div className="bg-gray-50 p-6 rounded-lg">
+          <h3 className="font-semibold mb-4">Team Captain/Manager Declaration:</h3>
+          <div className="space-y-3 text-sm text-gray-700">
+            <p>I hereby declare that:</p>
+            <ul className="space-y-2 ml-4">
+              <li>• All information provided is true and correct</li>
+              <li>• All players meet the age and eligibility criteria (Under-19, Class 12)</li>
+              <li>• All players are residents of the selected district</li>
+              <li>• Required documents will be uploaded for each player</li>
+              <li>• Any false information may lead to team disqualification</li>
+              <li>• Registration fee of ₹11,000 is non-refundable</li>
+            </ul>
+            
+            <div className="mt-6">
+              <label className="flex items-start space-x-3">
+                <input
+                  type="checkbox"
+                  required
+                  className="mt-1 text-primary-500"
+                />
+                <span className="text-sm">
+                  I agree to the above declaration and SPL tournament terms & conditions
+                </span>
+              </label>
+            </div>
+          </div>
         </div>
       </div>
 

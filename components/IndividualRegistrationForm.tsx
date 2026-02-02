@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import DocumentUpload from '@/components/DocumentUpload'
 
 interface IndividualFormData {
   name: string
@@ -14,6 +15,7 @@ interface IndividualFormData {
   role: string
   position: string
   experience: string
+  email: string
 }
 
 const districts = [
@@ -115,6 +117,19 @@ export default function IndividualRegistrationForm() {
               className="form-input"
               placeholder="Enter alternate mobile number"
             />
+          </div>
+
+          <div>
+            <label className="form-label">Email ID *</label>
+            <input
+              type="email"
+              {...register('email', { required: 'Email is required' })}
+              className="form-input"
+              placeholder="Enter email address"
+            />
+            {errors.email && (
+              <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+            )}
           </div>
 
           <div>
@@ -224,6 +239,17 @@ export default function IndividualRegistrationForm() {
               </label>
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* Document Upload */}
+      <div className="card">
+        <h2 className="text-xl font-semibold mb-6 text-gold-600">Document Upload (Mandatory)</h2>
+        <div className="grid md:grid-cols-2 gap-6">
+          <DocumentUpload label="Aadhaar Card" required />
+          <DocumentUpload label="School/College ID" required />
+          <DocumentUpload label="Date of Birth Proof" required />
+          <DocumentUpload label="Passport Size Photograph" required />
         </div>
       </div>
 

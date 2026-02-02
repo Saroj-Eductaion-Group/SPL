@@ -12,6 +12,7 @@ export default function Navbar() {
     { href: '/about', label: 'About SPL' },
     { href: '/tournament-format', label: 'Tournament' },
     { href: '/eligibility', label: 'Rules' },
+    { href: '/prizes', label: 'Prizes' },
     { href: '/schedule', label: 'Schedule' },
     { href: '/sponsors', label: 'Sponsors' },
     { href: '/news', label: 'News' },
@@ -46,6 +47,9 @@ export default function Navbar() {
             <Link href="/register" className="btn-primary">
               Register
             </Link>
+            <Link href="/admin/login" className="text-gray-700 hover:text-primary-500 transition-colors text-sm">
+              Admin
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -77,6 +81,13 @@ export default function Navbar() {
                 onClick={() => setIsOpen(false)}
               >
                 Register
+              </Link>
+              <Link
+                href="/admin/login"
+                className="text-gray-700 hover:text-primary-500 transition-colors"
+                onClick={() => setIsOpen(false)}
+              >
+                Admin Login
               </Link>
             </div>
           </div>
