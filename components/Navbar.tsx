@@ -9,7 +9,7 @@ export default function Navbar() {
 
   const navLinks = [
     { href: '/', label: 'Home' },
-    { href: '/about', label: 'About SPL' },
+    { href: '/about', label: 'About' },
     { href: '/tournament-format', label: 'Tournament' },
     { href: '/eligibility', label: 'Rules' },
     { href: '/prizes', label: 'Prizes' },
@@ -21,74 +21,82 @@ export default function Navbar() {
   ]
 
   return (
-    <nav className="bg-white shadow-lg sticky top-0 z-50">
-      <div className="container mx-auto px-4">
-        <div className="flex justify-between items-center py-4">
+    <nav className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-7xl px-4">
+      <div className="bg-white/20 backdrop-blur-md border border-white/30 rounded-full px-6 py-3 shadow-xl">
+        <div className="flex justify-between items-center">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
-            <Trophy className="w-8 h-8 text-primary-500" />
-            <div>
-              <div className="text-xl font-bold text-primary-600">SPL</div>
+            <div className="bg-blue-600/20 backdrop-blur-sm p-2 rounded-full">
+              <Trophy className="w-6 h-6 text-blue-600" />
+            </div>
+            <div className="hidden sm:block">
+              <div className="text-lg font-bold text-gray-900">SPL</div>
               <div className="text-xs text-gray-600">Under-19</div>
             </div>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-6">
+          <div className="hidden lg:flex items-center space-x-1">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-gray-700 hover:text-primary-500 transition-colors"
+                className="px-4 py-2 text-gray-700 hover:text-blue-600 hover:bg-white/30 rounded-full transition-all duration-200 text-sm font-medium"
               >
                 {link.label}
               </Link>
             ))}
-            <Link href="/register" className="btn-primary">
+          </div>
+
+          {/* Action Buttons */}
+          <div className="hidden lg:flex items-center space-x-3">
+            <Link href="/register" className="bg-blue-600/90 backdrop-blur-sm text-white px-6 py-2 rounded-full text-sm font-semibold hover:bg-blue-700/90 transition-all">
               Register
             </Link>
-            <Link href="/admin/login" className="text-gray-700 hover:text-primary-500 transition-colors text-sm">
+            <Link href="/admin/login" className="text-gray-600 hover:text-blue-600 text-sm font-medium">
               Admin
             </Link>
           </div>
 
           {/* Mobile Menu Button */}
           <button
-            className="lg:hidden"
+            className="lg:hidden bg-white/30 backdrop-blur-sm p-2 rounded-full"
             onClick={() => setIsOpen(!isOpen)}
           >
-            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            {isOpen ? <X className="w-5 h-5 text-gray-700" /> : <Menu className="w-5 h-5 text-gray-700" />}
           </button>
         </div>
 
         {/* Mobile Navigation */}
         {isOpen && (
-          <div className="lg:hidden py-4 border-t">
-            <div className="flex flex-col space-y-4">
+          <div className="lg:hidden mt-4 pt-4 border-t border-white/20">
+            <div className="flex flex-col space-y-2">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="text-gray-700 hover:text-primary-500 transition-colors"
+                  className="px-4 py-2 text-gray-700 hover:text-blue-600 hover:bg-white/30 rounded-full transition-all text-sm font-medium"
                   onClick={() => setIsOpen(false)}
                 >
                   {link.label}
                 </Link>
               ))}
-              <Link
-                href="/register"
-                className="btn-primary inline-block text-center"
-                onClick={() => setIsOpen(false)}
-              >
-                Register
-              </Link>
-              <Link
-                href="/admin/login"
-                className="text-gray-700 hover:text-primary-500 transition-colors"
-                onClick={() => setIsOpen(false)}
-              >
-                Admin Login
-              </Link>
+              <div className="flex flex-col space-y-2 pt-2">
+                <Link
+                  href="/register"
+                  className="bg-blue-600/90 backdrop-blur-sm text-white px-6 py-2 rounded-full text-sm font-semibold text-center"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Register
+                </Link>
+                <Link
+                  href="/admin/login"
+                  className="text-gray-600 hover:text-blue-600 text-sm font-medium text-center"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Admin Login
+                </Link>
+              </div>
             </div>
           </div>
         )}
