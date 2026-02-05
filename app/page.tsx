@@ -219,7 +219,7 @@ export default function Home() {
               <Reveal delay={0.1}>
                 <div className="stat-item text-center">
                   <div className="text-4xl font-bold text-blue-600 mb-2">
-                    <AnimatedCounter value="₹11L" />
+                    <AnimatedCounter value="11L" />
                   </div>
                   <div className="text-gray-600">Prize Money</div>
                 </div>

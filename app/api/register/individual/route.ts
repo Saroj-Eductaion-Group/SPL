@@ -1,10 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import { sendRegistrationEmail } from '@/lib/email'
 import { nanoid } from 'nanoid'
 
 export async function POST(request: NextRequest) {
   try {
     const data = await request.json()
+    
+    // Generate registration ID
+    const registrationId = `SPL${nanoid(8).toUpperCase()}`
     
     // Create user for individual player
     const user = await prisma.user.create({
@@ -38,10 +42,23 @@ export async function POST(request: NextRequest) {
       }
     })
 
+    // Send registration confirmation email
+    try {
+      await sendRegistrationEmail(
+        data.contactEmail,
+        registrationId,
+        undefined,
+        data.name
+      )
+    } catch (emailError) {
+      console.error('Email sending failed:', emailError)
+    }
+
     return NextResponse.json({ 
       success: true, 
       playerId: player.id,
-      userId: user.id
+      userId: user.id,
+      registrationId
     })
   } catch (error) {
     console.error('Individual registration error:', error)

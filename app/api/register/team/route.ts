@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import { sendRegistrationEmail } from '@/lib/email'
 import { nanoid } from 'nanoid'
 
 export async function POST(request: NextRequest) {
@@ -57,6 +58,17 @@ export async function POST(request: NextRequest) {
         status: 'PENDING'
       }
     })
+
+    // Send registration confirmation email
+    try {
+      await sendRegistrationEmail(
+        data.contactEmail,
+        registrationId,
+        data.teamName
+      )
+    } catch (emailError) {
+      console.error('Email sending failed:', emailError)
+    }
 
     return NextResponse.json({ 
       success: true, 
