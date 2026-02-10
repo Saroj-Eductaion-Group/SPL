@@ -46,8 +46,16 @@ export default function IndividualRegistrationForm() {
       
       if (response.ok) {
         const result = await response.json()
-        // Redirect to payment page
-        window.location.href = `/payment?playerId=${result.playerId}`
+        // Redirect to payment page with proper parameters
+        const params = new URLSearchParams({
+          registrationId: result.registrationId,
+          amount: result.amount.toString(),
+          email: data.email,
+          phone: data.phone,
+          name: data.name,
+          type: 'individual'
+        })
+        window.location.href = `/payment?${params.toString()}`
       }
     } catch (error) {
       console.error('Registration failed:', error)

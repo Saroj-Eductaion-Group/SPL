@@ -73,7 +73,12 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ 
       success: true, 
       teamId: team.id,
-      registrationId: team.registrationId
+      registrationId: team.registrationId,
+      paymentRequired: true,
+      amount: 11000,
+      email: data.contactEmail,
+      phone: data.contactMobile,
+      name: data.teamName
     })
   } catch (error) {
     console.error('Team registration error:', error)
